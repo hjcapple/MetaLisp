@@ -13,7 +13,7 @@ struct number_tag {
 struct null_tag {
     static const bool is_pair = false;
     static const bool is_null = true;
-    static const bool is_number = true;
+    static const bool is_number = false;
     static const bool is_boolean = false;
 };
 
@@ -27,7 +27,7 @@ struct pair_tag {
 struct boolean_tag {
     static const bool is_pair = false;
     static const bool is_null = false;
-    static const bool is_number = true;
+    static const bool is_number = false;
     static const bool is_boolean = true;
 };
 
@@ -217,9 +217,7 @@ struct reverse {
 
 template <template <typename> typename op, typename seq>
 struct filter {
-    using type =
-        typename cond<is_null<seq>, null, op<car<seq>>, cons<car<seq>, filter<op, cdr<seq>>>, filter<op, cdr<seq>>>::
-            type;
+    using type = typename cond<is_null<seq>, null, op<car<seq>>, cons<car<seq>, filter<op, cdr<seq>>>, filter<op, cdr<seq>>>::type;
     using tag = typename type::tag;
 };
 

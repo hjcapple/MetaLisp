@@ -48,11 +48,17 @@ C++ 每个模板类，相当于 Scheme 的一个函数。结果存放在模板�
 
 [queen.cpp](./queen.cpp) 使用 C++ 模板语法改写了这些代码。
 
-代码中，我在 Xcode 中尝试，当 `board_size = 6`，会编译错误，告诉模板嵌套太多
+我在 Xcode 中尝试，当 `board_size = 6`时，就会编译错误，告诉模板嵌套太多
 
 ```
 Recursive template instantiation exceeded maximum depth of 1024
 ```
 
-所以使用 C++ 模板元编程，也至多只能解决五皇后问题。说是解决八皇后问题，有点名不符实。
+假如使用 `-ftemplate-depth=N`编译选项，来增加嵌套层次，还是会编译出错
+
+```
+clang: error: unable to execute command: Illegal instruction: 4
+```
+
+这里的模板编程，也至多只能解决五皇后问题。说是解决八皇后问题，有点名不符实。
 
