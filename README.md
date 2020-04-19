@@ -1,6 +1,6 @@
 ## MetaLisp
 
-使用 C++ 元模板来模拟 Scheme 的 car、cdr、cons、lisp  等语法。需要 C++ 17 支持。
+使用 C++ 模板元编程来模拟 Scheme 的 car、cdr、cons、lisp  等语法。需要 C++ 17 支持。
 
 
 
@@ -46,5 +46,6 @@ C++ 每个模板类，相当于 Scheme 的一个函数。结果存放在模板�
 
 * [求解八皇后问题](./examples/queen.hpp)
 * [计算阶乘](./examples/factorial.hpp)
+* [平方根](./examples/sqrt.hpp)
 
 

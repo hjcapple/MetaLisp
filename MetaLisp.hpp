@@ -235,6 +235,9 @@ namespace impl {
 
     template <int64_t n0, int64_t d0, int64_t n1, int64_t d1>
     using is_greater = boolean<(n0 * d1 > d0 * n1)>;
+
+    template <int64_t n0, int64_t d0, int64_t n1, int64_t d1>
+    using is_less = boolean<(n0 * d1 < d0 * n1)>;
 }; // namespace impl
 
 template <typename a, typename b>
@@ -247,7 +250,13 @@ template <typename a, typename b>
 struct mul : public number<a::type::numer * b::type::numer, a::type::denom * b::type::denom> {};
 
 template <typename a, typename b>
+struct div_ : public number<a::type::numer * b::type::denom, a::type::denom * b::type::numer> {};
+
+template <typename a, typename b>
 struct is_greater : public impl::is_greater<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
+
+template <typename a, typename b>
+struct is_less : public impl::is_less<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
 
 template <typename a>
 struct abs_ : public if_else<is_greater<a, number<0>>, a, number<-a::type::numer, a::type::denom>> {};
@@ -265,7 +274,7 @@ struct display_impl {
         if (T::type::denom == 1) {
             return os << T::type::numer;
         } else {
-            return os << T::type::numer << "/" << T::type::denom;
+            return os << static_cast<double>(T::type::numer) / static_cast<double>(T::type::denom);
         }
     }
     
