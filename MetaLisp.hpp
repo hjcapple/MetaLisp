@@ -8,6 +8,7 @@ struct number_tag {
     static const bool is_null = false;
     static const bool is_number = true;
     static const bool is_boolean = false;
+    static const bool is_symbol = false;
 };
 
 struct null_tag {
@@ -15,6 +16,7 @@ struct null_tag {
     static const bool is_null = true;
     static const bool is_number = false;
     static const bool is_boolean = false;
+    static const bool is_symbol = false;
 };
 
 struct pair_tag {
@@ -22,6 +24,7 @@ struct pair_tag {
     static const bool is_null = false;
     static const bool is_number = false;
     static const bool is_boolean = false;
+    static const bool is_symbol = false;
 };
 
 struct boolean_tag {
@@ -29,6 +32,15 @@ struct boolean_tag {
     static const bool is_null = false;
     static const bool is_number = false;
     static const bool is_boolean = true;
+    static const bool is_symbol = false;
+};
+
+struct symbol_tag {
+    static const bool is_pair = false;
+    static const bool is_null = false;
+    static const bool is_number = false;
+    static const bool is_boolean = false;
+    static const bool is_symbol = true;
 };
 
 namespace impl {
@@ -86,6 +98,44 @@ struct number {
     static const int64_t denom = impl::rat_reduce<(N == 0 || D == 0), N, D>::denom;
 };
 
+// from https://github.com/irrequietus/typestring
+namespace impl {
+    template <char... C>
+    struct Symbol {
+        using type = Symbol<C...>;
+        using tag = symbol_tag;
+        static constexpr char const value[sizeof...(C) + 1] = {C..., '\0'};
+        
+    };
+
+    template <int N, int M>
+    constexpr char tygrab(char const (&c)[M]) noexcept {
+        return c[N < M ? N : M - 1];
+    }
+
+    template <char... X>
+    auto typoke(Symbol<X...>) -> Symbol<X...>;
+
+    template <char... X, char... Y>
+    auto typoke(Symbol<X...>, Symbol<'\0'>, Symbol<Y>...) -> Symbol<X...>;
+
+    template <char A, char... X, char... Y>
+    auto typoke(Symbol<X...>, Symbol<A>, Symbol<Y>...) -> decltype(typoke(Symbol<X..., A>(), Symbol<Y>()...));
+
+    template <char... C>
+    auto typeek(Symbol<C...>) -> decltype(typoke(Symbol<C>()...));
+}
+
+#define TYPESTRING16(n, x)                                                                                      \
+    impl::tygrab<0x##n##0>(x), impl::tygrab<0x##n##1>(x), impl::tygrab<0x##n##2>(x), impl::tygrab<0x##n##3>(x), \
+    impl::tygrab<0x##n##4>(x), impl::tygrab<0x##n##5>(x), impl::tygrab<0x##n##6>(x), impl::tygrab<0x##n##7>(x), \
+    impl::tygrab<0x##n##8>(x), impl::tygrab<0x##n##9>(x), impl::tygrab<0x##n##A>(x), impl::tygrab<0x##n##B>(x), \
+    impl::tygrab<0x##n##C>(x), impl::tygrab<0x##n##D>(x), impl::tygrab<0x##n##E>(x), impl::tygrab<0x##n##F>(x)
+
+#define TYPESTRING32(n, x) TYPESTRING16(n##0, x), TYPESTRING16(n##1, x)
+
+#define symbol(x) decltype(impl::typeek(impl::Symbol<TYPESTRING32(, x)>()))
+
 template <bool flag>
 struct boolean {
     using tag = boolean_tag;
@@ -117,6 +167,9 @@ using is_number = boolean<T::tag::is_number>;
 
 template <typename T>
 using is_boolean = boolean<T::tag::is_boolean>;
+
+template <typename T>
+using is_symbol = boolean<T::tag::is_symbol>;
 
 ///////////////////////////////////////////////////////////////
 template <typename... x>
@@ -211,6 +264,10 @@ struct display_impl {
         } else {
             return os << T::type::numer << "/" << T::type::denom;
         }
+    }
+    
+    static std::ostream &display(std::ostream &os, bool showBracket, symbol_tag) {
+        return os << T::type::value;
     }
 
     static std::ostream &display(std::ostream &os, bool showBracket, boolean_tag) {

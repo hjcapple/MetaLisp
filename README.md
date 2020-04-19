@@ -46,7 +46,7 @@ C++ 每个模板类，相当于 Scheme 的一个函数。结果存放在模板�
 
 八皇后的 Scheme 解法可以参考 [SICP 的练习 2.42](https://github.com/hjcapple/reading-sicp/blob/master/chapter_2/exercise_2_42.scm)
 
-[queen.cpp](./queen.cpp) 使用 C++ 模板语法改写了这些代码。
+[queen.hpp](./queen.hpp) 使用 C++ 模板语法改写了这些代码。
 
 我在 Xcode 中尝试，当 `board_size = 6`时，就会编译错误，告诉模板嵌套太多
 

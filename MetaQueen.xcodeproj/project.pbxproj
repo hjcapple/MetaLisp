@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E874E31244ACC2C00AE113B /* queen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E874E30244ACC2C00AE113B /* queen.cpp */; };
+		2E874E31244ACC2C00AE113B /* queen.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E874E30244ACC2C00AE113B /* queen.hpp */; };
+		2EDB531A244C75FE00DFB1C1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB5319244C75FE00DFB1C1 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,8 +25,9 @@
 
 /* Begin PBXFileReference section */
 		2E874E26244ACBFA00AE113B /* MetaQueen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MetaQueen; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E874E30244ACC2C00AE113B /* queen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = queen.cpp; sourceTree = "<group>"; };
+		2E874E30244ACC2C00AE113B /* queen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queen.hpp; sourceTree = "<group>"; };
 		2E874E32244ACC3100AE113B /* MetaLisp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetaLisp.hpp; sourceTree = "<group>"; };
+		2EDB5319244C75FE00DFB1C1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,8 +44,9 @@
 		2E874E1D244ACBFA00AE113B = {
 			isa = PBXGroup;
 			children = (
-				2E874E30244ACC2C00AE113B /* queen.cpp */,
+				2E874E30244ACC2C00AE113B /* queen.hpp */,
 				2E874E32244ACC3100AE113B /* MetaLisp.hpp */,
+				2EDB5319244C75FE00DFB1C1 /* main.cpp */,
 				2E874E27244ACBFA00AE113B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,7 +116,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E874E31244ACC2C00AE113B /* queen.cpp in Sources */,
+				2EDB531A244C75FE00DFB1C1 /* main.cpp in Sources */,
+				2E874E31244ACC2C00AE113B /* queen.hpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

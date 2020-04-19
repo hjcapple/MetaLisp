@@ -1,10 +1,14 @@
+#ifndef __QUEEN_HPP__
+#define __QUEEN_HPP__
+
 #include "MetaLisp.hpp"
-#include <iostream>
+
+// 求解八皇后问题
+// 相应的 Scheme 代码见 https://github.com/hjcapple/reading-sicp/blob/master/chapter_2/exercise_2_42.scm
 
 template <typename low, typename high>
 struct enumerate_interval {
-    using type =
-        typename if_else<is_greater<low, high>, null, cons<low, enumerate_interval<add<low, number<1>>, high>>>::type;
+    using type = typename if_else<is_greater<low, high>, null, cons<low, enumerate_interval<add<low, number<1>>, high>>>::type;
     using tag = typename type::tag;
 };
 
@@ -59,8 +63,4 @@ struct queen {
     using tag = typename type::tag;
 };
 
-int main(int argc, char **argv) {
-    using answer = queen<number<5>>;
-    display<answer>();
-    return 0;
-}
+#endif
