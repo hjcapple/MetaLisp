@@ -8,14 +8,6 @@ struct enumerate_interval {
     using tag = typename type::tag;
 };
 
-template <typename lst0, typename lst1>
-struct zip {
-    using type = typename if_else<or_<is_null<lst0>, is_null<lst1>>,
-                                  null,
-                                  cons<cons<car<lst0>, car<lst1>>, zip<cdr<lst0>, cdr<lst1>>>>::type;
-    using tag = typename type::tag;
-};
-
 using empty_board = null;
 
 template <typename k, typename positions>
@@ -30,7 +22,7 @@ struct is_safe {
         using type = typename is_equal<tmp0, tmp1>::type;
     };
 
-    using pair_list = typename zip<positions, enumerate_interval<number<1>, k>>::type;
+    using pair_list = typename map2<cons, positions, enumerate_interval<number<1>, k>>::type;
     using val = typename car<pair_list>::type;
 
     template <typename x>

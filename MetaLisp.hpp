@@ -31,11 +31,59 @@ struct boolean_tag {
     static const bool is_boolean = true;
 };
 
-template <int N>
+namespace impl {
+    template <int64_t x, int64_t y>
+    struct gcd {
+        static const int64_t value = gcd<y, x % y>::value;
+    };
+
+    template <int64_t x>
+    struct gcd<x, 0> {
+        static const int64_t value = x;
+    };
+
+    template <bool isNegN, bool isNegD, int64_t N, int64_t D>
+    struct rat_gcd;
+
+    template <int64_t N, int64_t D>
+    struct rat_gcd<false, false, N, D> {
+        static const int64_t value = gcd<N, D>::value;
+    };
+
+    template <int64_t N, int64_t D>
+    struct rat_gcd<true, true, N, D> {
+        static const int64_t value = -gcd<-N, -D>::value;
+    };
+
+    template <int64_t N, int64_t D>
+    struct rat_gcd<true, false, N, D> {
+        static const int64_t value = gcd<-N, D>::value;
+    };
+
+    template <int64_t N, int64_t D>
+    struct rat_gcd<false, true, N, D> {
+        static const int64_t value = -gcd<N, -D>::value;
+    };
+
+    template <bool isZero, int64_t N, int64_t D>
+    struct rat_reduce {
+        static const int64_t numer = 0;
+        static const int64_t denom = 1;
+    };
+
+    template <int64_t N, int64_t D>
+    struct rat_reduce<false, N, D> {
+        static const int64_t numer = N / rat_gcd<(N < 0), (D < 0), N, D>::value;
+        static const int64_t denom = D / rat_gcd<(N < 0), (D < 0), N, D>::value;
+    };
+} // namespace impl
+
+template <int64_t N, int64_t D = 1>
 struct number {
-    using type = number<N>;
+    using type = number<N, D>;
     using tag = number_tag;
-    static const int value = N;
+    static const int64_t numer = impl::rat_reduce<(N == 0 || D == 0), N, D>::numer;
+    static const int64_t denom = impl::rat_reduce<(N == 0 || D == 0), N, D>::denom;
 };
 
 template <bool flag>
@@ -116,35 +164,53 @@ struct cond<Else> : public Else {};
 
 //////////////////////////////////////////////////////////////
 template <typename a, typename b>
-struct add : public number<a::type::value + b::type::value> {};
-
-template <typename a, typename b>
-struct sub : public number<a::type::value - b::type::value> {};
-
-template <typename a, typename b>
-struct not_equal : public boolean<a::type::value != b::type::value> {};
-
-template <typename a, typename b>
-struct is_greater : public boolean<(a::type::value > b::type::value)> {};
-
-template <typename a, typename b>
-struct is_equal : public boolean<(a::type::value == b::type::value)> {};
-
-template <typename a, typename b>
 struct or_ : public boolean<(a::type::value || b::type::value)> {};
 
 template <typename a, typename b>
 struct and_ : public boolean<(a::type::value && b::type::value)> {};
 
 template <typename a>
-struct abs_ : public if_else<is_greater<a, number<0>>, a, number<-a::type::value>> {};
+struct not_ : public boolean<(!a::type::value)> {};
 
-//////////////////////////////////////////////////////////////
+/////////////////////////////////////////
+namespace impl {
+    template <int64_t n0, int64_t d0, int64_t n1, int64_t d1>
+    using add = number<n0 * d1 + n1 * d0, d0 * d1>;
 
+    template <int64_t n0, int64_t d0, int64_t n1, int64_t d1>
+    using sub = number<n0 * d1 - n1 * d0, d0 * d1>;
+
+    template <int64_t n0, int64_t d0, int64_t n1, int64_t d1>
+    using is_greater = boolean<(n0 * d1 > d0 * n1)>;
+}; // namespace impl
+
+template <typename a, typename b>
+struct add : public impl::add<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
+
+template <typename a, typename b>
+struct sub : public impl::sub<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
+
+template <typename a, typename b>
+struct is_greater : public impl::is_greater<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
+
+template <typename a>
+struct abs_ : public if_else<is_greater<a, number<0>>, a, number<-a::type::numer, a::type::denom>> {};
+
+template <typename a, typename b>
+struct is_equal : public boolean<(a::type::numer == b::type::numer && a::type::denom == b::type::denom)> {};
+
+template <typename a, typename b>
+struct not_equal : public not_<is_equal<a, b>> {};
+
+/////////////////////////////////////////////////////////////////////
 template <typename T>
 struct display_impl {
     static std::ostream &display(std::ostream &os, bool showBracket, number_tag) {
-        return os << T::type::value;
+        if (T::type::denom == 1) {
+            return os << T::type::numer;
+        } else {
+            return os << T::type::numer << "/" << T::type::denom;
+        }
     }
 
     static std::ostream &display(std::ostream &os, bool showBracket, boolean_tag) {
@@ -199,6 +265,14 @@ struct length : public if_else<is_null<seq>, number<0>, add<number<1>, length<cd
 
 template <template <typename> typename op, typename seq>
 struct map : public if_else<is_null<seq>, null, cons<op<car<seq>>, map<op, cdr<seq>>>> {};
+
+template <template <typename, typename> typename op, typename seq0, typename seq1>
+struct map2 {
+    using type = typename if_else<or_<is_null<seq0>, is_null<seq1>>,
+                                  null,
+                                  cons<op<car<seq0>, car<seq1>>, map2<op, cdr<seq0>, cdr<seq1>>>>::type;
+    using tag = typename type::tag;
+};
 
 template <template <typename, typename> typename op, typename initial, typename seq>
 struct accumulate : public if_else<is_null<seq>, initial, op<car<seq>, accumulate<op, initial, cdr<seq>>>> {};
