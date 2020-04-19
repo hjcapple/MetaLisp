@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E874E31244ACC2C00AE113B /* queen.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E874E30244ACC2C00AE113B /* queen.hpp */; };
-		2EDB531A244C75FE00DFB1C1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB5319244C75FE00DFB1C1 /* main.cpp */; };
+		2EDB5323244C87FB00DFB1C1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB5322244C87FB00DFB1C1 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,11 +23,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2E874E26244ACBFA00AE113B /* MetaQueen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MetaQueen; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E874E30244ACC2C00AE113B /* queen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queen.hpp; sourceTree = "<group>"; };
-		2E874E32244ACC3100AE113B /* MetaLisp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetaLisp.hpp; sourceTree = "<group>"; };
-		2EDB5319244C75FE00DFB1C1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		2EDB531B244C787B00DFB1C1 /* factorial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = factorial.hpp; sourceTree = "<group>"; };
+		2E874E26244ACBFA00AE113B /* MetaLisp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MetaLisp; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EDB531D244C87FB00DFB1C1 /* queen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queen.hpp; sourceTree = "<group>"; };
+		2EDB5321244C87FB00DFB1C1 /* factorial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = factorial.hpp; sourceTree = "<group>"; };
+		2EDB5322244C87FB00DFB1C1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2EDB5324244C881600DFB1C1 /* MetaLisp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MetaLisp.hpp; path = ../MetaLisp.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,10 +44,8 @@
 		2E874E1D244ACBFA00AE113B = {
 			isa = PBXGroup;
 			children = (
-				2EDB531B244C787B00DFB1C1 /* factorial.hpp */,
-				2E874E30244ACC2C00AE113B /* queen.hpp */,
-				2E874E32244ACC3100AE113B /* MetaLisp.hpp */,
-				2EDB5319244C75FE00DFB1C1 /* main.cpp */,
+				2EDB5324244C881600DFB1C1 /* MetaLisp.hpp */,
+				2EDB531C244C87FB00DFB1C1 /* examples */,
 				2E874E27244ACBFA00AE113B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,17 +53,27 @@
 		2E874E27244ACBFA00AE113B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2E874E26244ACBFA00AE113B /* MetaQueen */,
+				2E874E26244ACBFA00AE113B /* MetaLisp */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2EDB531C244C87FB00DFB1C1 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				2EDB531D244C87FB00DFB1C1 /* queen.hpp */,
+				2EDB5321244C87FB00DFB1C1 /* factorial.hpp */,
+				2EDB5322244C87FB00DFB1C1 /* main.cpp */,
+			);
+			name = examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2E874E25244ACBFA00AE113B /* MetaQueen */ = {
+		2E874E25244ACBFA00AE113B /* MetaLisp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E874E2D244ACBFA00AE113B /* Build configuration list for PBXNativeTarget "MetaQueen" */;
+			buildConfigurationList = 2E874E2D244ACBFA00AE113B /* Build configuration list for PBXNativeTarget "MetaLisp" */;
 			buildPhases = (
 				2E874E22244ACBFA00AE113B /* Sources */,
 				2E874E23244ACBFA00AE113B /* Frameworks */,
@@ -76,9 +83,9 @@
 			);
 			dependencies = (
 			);
-			name = MetaQueen;
+			name = MetaLisp;
 			productName = MetaQueen;
-			productReference = 2E874E26244ACBFA00AE113B /* MetaQueen */;
+			productReference = 2E874E26244ACBFA00AE113B /* MetaLisp */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -95,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2E874E21244ACBFA00AE113B /* Build configuration list for PBXProject "MetaQueen" */;
+			buildConfigurationList = 2E874E21244ACBFA00AE113B /* Build configuration list for PBXProject "MetaLisp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -108,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2E874E25244ACBFA00AE113B /* MetaQueen */,
+				2E874E25244ACBFA00AE113B /* MetaLisp */,
 			);
 		};
 /* End PBXProject section */
@@ -118,8 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EDB531A244C75FE00DFB1C1 /* main.cpp in Sources */,
-				2E874E31244ACC2C00AE113B /* queen.hpp in Sources */,
+				2EDB5323244C87FB00DFB1C1 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,7 +262,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2E874E21244ACBFA00AE113B /* Build configuration list for PBXProject "MetaQueen" */ = {
+		2E874E21244ACBFA00AE113B /* Build configuration list for PBXProject "MetaLisp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E874E2B244ACBFA00AE113B /* Debug */,
@@ -265,7 +271,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E874E2D244ACBFA00AE113B /* Build configuration list for PBXNativeTarget "MetaQueen" */ = {
+		2E874E2D244ACBFA00AE113B /* Build configuration list for PBXNativeTarget "MetaLisp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E874E2E244ACBFA00AE113B /* Debug */,

@@ -3,7 +3,7 @@
 
 #include "MetaLisp.hpp"
 
-// 求解阶乘
+// 计算阶乘
 // 相应的 Scheme 代码见 https://github.com/hjcapple/reading-sicp/blob/master/chapter_1/factorial.scm
 
 template <typename n>
