@@ -244,6 +244,9 @@ template <typename a, typename b>
 struct sub : public impl::sub<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
 
 template <typename a, typename b>
+struct mul : public number<a::type::numer * b::type::numer, a::type::denom * b::type::denom> {};
+
+template <typename a, typename b>
 struct is_greater : public impl::is_greater<a::type::numer, a::type::denom, b::type::numer, b::type::denom> {};
 
 template <typename a>

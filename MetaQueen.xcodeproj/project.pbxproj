@@ -28,6 +28,7 @@
 		2E874E30244ACC2C00AE113B /* queen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queen.hpp; sourceTree = "<group>"; };
 		2E874E32244ACC3100AE113B /* MetaLisp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MetaLisp.hpp; sourceTree = "<group>"; };
 		2EDB5319244C75FE00DFB1C1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2EDB531B244C787B00DFB1C1 /* factorial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = factorial.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +45,7 @@
 		2E874E1D244ACBFA00AE113B = {
 			isa = PBXGroup;
 			children = (
+				2EDB531B244C787B00DFB1C1 /* factorial.hpp */,
 				2E874E30244ACC2C00AE113B /* queen.hpp */,
 				2E874E32244ACC3100AE113B /* MetaLisp.hpp */,
 				2EDB5319244C75FE00DFB1C1 /* main.cpp */,
