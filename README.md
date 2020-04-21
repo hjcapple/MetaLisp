@@ -47,5 +47,6 @@ C++ 每个模板类，相当于 Scheme 的一个函数。结果存放在模板�
 * [求解八皇后问题](./examples/queen.hpp)
 * [计算阶乘](./examples/factorial.hpp)
 * [平方根](./examples/sqrt.hpp)
+* [huffman 编码](./examples/huffman.hpp)
 
 

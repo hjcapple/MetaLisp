@@ -1,6 +1,7 @@
 #include "factorial.hpp"
 #include "queen.hpp"
 #include "sqrt.hpp"
+#include "huffman.hpp"
 
 // 八皇后问题
 static void test_queen() {
@@ -37,10 +38,20 @@ static void test_sqrt() {
     printf("\n");
 }
 
+static void test_huffman() {
+    printf("huffman: \n");
+    display<sample_tree>();
+    display<sample_message>();
+    display<decode_result>();
+    display<encode_result>();
+    printf("\n");
+}
+
 int main(int argc, char **argv) {
     test_queen();
     test_symbol();
     test_factorial();
     test_sqrt();
+    test_huffman();
     return 0;
 }

@@ -172,7 +172,7 @@ template <typename T>
 using is_symbol = boolean<T::tag::is_symbol>;
 
 ///////////////////////////////////////////////////////////////
-template <typename... x>
+template <typename... T>
 struct list;
 
 template <typename T>
@@ -180,6 +180,15 @@ struct list<T> : public pair<T, null> {};
 
 template <typename T, typename... X>
 struct list<T, X...> : public pair<T, list<X...>> {};
+
+template <int ... N>
+struct number_list;
+
+template <int N>
+struct number_list<N> : public pair<number<N>, null> {};
+
+template <int M, int... N>
+struct number_list<M, N...> : public pair<number<M>, number_list<N...>> {};
 
 template <typename x>
 struct car {
@@ -196,15 +205,24 @@ struct cdr {
 template <typename T, typename U>
 struct cons : public pair<T, U> {};
 
+template <typename x>
+using cadr = car<cdr<x>>;
+
+template <typename x>
+using caddr = car<cdr<cdr<x>>>;
+
+template <typename x>
+using cadddr = car<cdr<cdr<cdr<x>>>>;
+
 ///////////////////////////////////////////////////////////////
-template <bool flag, typename True, typename False>
+template <typename Flag, typename True, typename False>
 struct if_else_impl : public True {};
 
 template <typename True, typename False>
-struct if_else_impl<false, True, False> : public False {};
+struct if_else_impl<boolean<false>, True, False> : public False {};
 
 template <typename Flag, typename True, typename False>
-struct if_else : public if_else_impl<Flag::type::value, True, False> {};
+struct if_else : public if_else_impl<typename Flag::type, True, False> {};
 
 template <typename... x>
 struct cond;
@@ -261,8 +279,17 @@ struct is_less : public impl::is_less<a::type::numer, a::type::denom, b::type::n
 template <typename a>
 struct abs_ : public if_else<is_greater<a, number<0>>, a, number<-a::type::numer, a::type::denom>> {};
 
+template <typename a, typename b, typename tagA, typename tagB>
+struct is_equal_impl : public boolean<false> {};
+
 template <typename a, typename b>
-struct is_equal : public boolean<(a::type::numer == b::type::numer && a::type::denom == b::type::denom)> {};
+struct is_equal_impl<a, b, number_tag, number_tag> : public boolean<(a::type::numer == b::type::numer && a::type::denom == b::type::denom)> {};
+
+template <typename a, typename b>
+struct is_equal_impl<a, b, symbol_tag, symbol_tag> : public boolean<(a::type::value == b::type::value)> {};
+
+template <typename a, typename b>
+struct is_equal : public is_equal_impl<a, b, typename a::tag, typename b::tag> {};
 
 template <typename a, typename b>
 struct not_equal : public not_<is_equal<a, b>> {};

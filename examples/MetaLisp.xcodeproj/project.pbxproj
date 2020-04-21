@@ -24,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		2E874E26244ACBFA00AE113B /* MetaLisp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MetaLisp; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EB196A2244F36FA0061CF2C /* huffman.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = huffman.hpp; sourceTree = "<group>"; };
 		2EDB531D244C87FB00DFB1C1 /* queen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queen.hpp; sourceTree = "<group>"; };
 		2EDB5321244C87FB00DFB1C1 /* factorial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = factorial.hpp; sourceTree = "<group>"; };
 		2EDB5322244C87FB00DFB1C1 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		2EDB531C244C87FB00DFB1C1 /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				2EB196A2244F36FA0061CF2C /* huffman.hpp */,
 				2EDB5325244C8EAD00DFB1C1 /* sqrt.hpp */,
 				2EDB531D244C87FB00DFB1C1 /* queen.hpp */,
 				2EDB5321244C87FB00DFB1C1 /* factorial.hpp */,
