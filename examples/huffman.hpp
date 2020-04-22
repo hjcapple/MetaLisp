@@ -4,7 +4,7 @@
 #include "MetaLisp.hpp"
 
 // huffman 编码
-// 相应的 Scheme 代码见 https://github.com/hjcapple/reading-sicp/blob/master/chapter_2/exercise_2_68.scm
+// 相应的 Scheme 代码见 https://github.com/hjcapple/reading-sicp/blob/master/chapter_2/exercise_2_69.scm
 
 template <typename symbol_, typename weight>
 struct make_leaf : public list<symbol("leaf"), symbol_, weight> {};
@@ -26,7 +26,8 @@ struct weight : public if_else<is_leaf<tree>, weight_leaf<tree>, cadddr<tree>> {
 
 template <typename left, typename right>
 struct make_code_tree {
-    using type = typename list<left, right, append<symbol_<left>, symbol_<right>>, add<weight<left>, weight<right>>>::type;
+    using type =
+        typename list<left, right, append<symbol_<left>, symbol_<right>>, add<weight<left>, weight<right>>>::type;
     using tag = typename type::tag;
 };
 
@@ -38,8 +39,10 @@ struct right_branch : public cadr<tree> {};
 
 template <typename bit, typename branch>
 struct choose_branch {
-    using type = typename cond<is_equal<bit, number<0>>, left_branch<branch>,
-                               is_equal<bit, number<1>>, right_branch<branch>,
+    using type = typename cond<is_equal<bit, number<0>>,
+                               left_branch<branch>,
+                               is_equal<bit, number<1>>,
+                               right_branch<branch>,
                                null>::type;
     using tag = typename type::tag;
 };
@@ -70,24 +73,72 @@ struct encode_symbol {
         using left_right = encode_symbol<sym, left_branch<tree>>;
         using type = typename if_else<left_right, cons<number<0>, left_right>, Else2>::type;
     };
-    using type = typename if_else<is_leaf<tree>, if_else<is_equal<sym, symbol_leaf<tree>>, null, boolean<false>>, Else>::type;
+    using type =
+        typename if_else<is_leaf<tree>, if_else<is_equal<sym, symbol_leaf<tree>>, null, boolean<false>>, Else>::type;
     using tag = typename type::tag;
 };
 
 template <typename message, typename tree>
 struct encode {
-    using type = typename if_else<is_null<message>, null, append<encode_symbol<car<message>, tree>, encode<cdr<message>, tree>>>::type;
+    using type = typename if_else<is_null<message>,
+                                  null,
+                                  append<encode_symbol<car<message>, tree>, encode<cdr<message>, tree>>>::type;
     using tag = typename type::tag;
 };
 
+template <typename x, typename set>
+struct adjoin_set {
+    using type = typename cond<is_null<set>,
+                               list<x>,
+                               is_less<weight<x>, weight<car<set>>>,
+                               cons<x, set>,
+                               cons<car<set>, adjoin_set<x, cdr<set>>>>::type;
+    using tag = typename type::tag;
+};
 
-using sample_tree = make_code_tree<make_leaf<symbol("A"), number<4>>,
-                                   make_code_tree<make_leaf<symbol("B"), number<2>>,
-                                                  make_code_tree<make_leaf<symbol("D"), number<1>>,
-                                                                 make_leaf<symbol("C"), number<1>>>>>;
-using sample_message = number_list<0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0>;
+template <typename pairs>
+struct make_leaf_set {
+    struct Else {
+        using pair_ = car<pairs>;
+        using type = typename adjoin_set<make_leaf<car<pair_>, cadr<pair_>>, make_leaf_set<cdr<pairs>>>::type;
+    };
+    using type = typename if_else<is_null<pairs>, null, Else>::type;
+    using tag = typename type::tag;
+};
 
-using decode_result = decode<sample_message, sample_tree>;  // (A D A B B C A)
-using encode_result = encode<decode_result, sample_tree>;   // (0 1 1 0 0 1 0 1 0 1 1 1 0)
+template <typename set>
+struct successive_merge {
+    struct Else {
+        using left = car<set>;
+        using right = cadr<set>;
+        using remained = cddr<set>;
+        using type = typename successive_merge<adjoin_set<make_code_tree<left, right>, remained>>::type;
+    };
+    using type = typename if_else<is_equal<length<set>, number<1>>, car<set>, Else>::type;
+    using tag = typename type::tag;
+};
+
+template <typename pairs>
+struct generate_huffman_tree : public successive_merge<typename make_leaf_set<pairs>::type> {};
+
+//////////////////////////////////////////////
+
+static inline void test_huffman() {
+    printf("huffman: \n");
+    using huffman_pair = typename list<list<symbol("A"), number<4>>,
+                                       list<symbol("B"), number<2>>,
+                                       list<symbol("C"), number<1>>,
+                                       list<symbol("D"), number<1>>>::type;
+
+    using huffman_tree = generate_huffman_tree<huffman_pair>;
+    using symbols = list<symbol("A"), symbol("D"), symbol("A"), symbol("B"), symbol("B"), symbol("C"), symbol("A")>;
+    using message = encode<symbols, huffman_tree>;
+
+    display<huffman_tree>(); // ((leaf A 4) ((leaf B 2) ((leaf D 1) (leaf C 1) (D C) 2) (B D C) 4) (A B D C) 8)
+    display<symbols>();      // (A D A B B C A)
+    display<message>();      // (0 1 1 0 0 1 0 1 0 1 1 1 0)
+    display<decode<message, huffman_tree>>(); // (A D A B B C A)
+    printf("\n");
+}
 
 #endif

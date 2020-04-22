@@ -8,7 +8,8 @@
 
 template <typename low, typename high>
 struct enumerate_interval {
-    using type = typename if_else<is_greater<low, high>, null, cons<low, enumerate_interval<add<low, number<1>>, high>>>::type;
+    using type =
+        typename if_else<is_greater<low, high>, null, cons<low, enumerate_interval<add<low, number<1>>, high>>>::type;
     using tag = typename type::tag;
 };
 
@@ -62,5 +63,24 @@ struct queen {
     using type = typename queen_cols<board_size>::type;
     using tag = typename type::tag;
 };
+
+static inline void test_queen() {
+    printf("queen: \n");
+    using answer = queen<number<5>>;
+
+    /*
+        ((4 2 5 3 1)
+        (3 5 2 4 1)
+        (5 3 1 4 2)
+        (4 1 3 5 2)
+        (5 2 4 1 3)
+        (1 4 2 5 3)
+        (2 5 3 1 4)
+        (1 3 5 2 4)
+        (3 1 4 2 5)
+        (2 4 1 3 5)) */
+    display<queen<number<5>>>();
+    printf("\n");
+}
 
 #endif

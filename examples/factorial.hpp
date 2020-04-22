@@ -27,4 +27,11 @@ struct factorial_2 {
     using tag = typename type::tag;
 };
 
+static inline void test_factorial() {
+    printf("factorial: \n");
+    display<factorial<number<10>>>();   // 3628800
+    display<factorial_2<number<10>>>(); // 3628800
+    printf("\n");
+}
+
 #endif

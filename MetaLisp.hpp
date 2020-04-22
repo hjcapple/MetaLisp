@@ -209,6 +209,9 @@ template <typename x>
 using cadr = car<cdr<x>>;
 
 template <typename x>
+using cddr = cdr<cdr<x>>;
+
+template <typename x>
 using caddr = car<cdr<cdr<x>>>;
 
 template <typename x>

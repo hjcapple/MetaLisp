@@ -29,4 +29,15 @@ struct sqrt_iter {
 template <typename x>
 struct sqrt : public sqrt_iter<number<1>, x> {};
 
+static void test_sqrt() {
+    printf("sqrt: \n");
+    display<sqrt<number<1>>>(); // 1
+    display<sqrt<number<2>>>(); // 1.41422
+    display<sqrt<number<3>>>(); // 1.73214
+    display<sqrt<number<4>>>(); // 2
+    display<sqrt<number<5>>>(); // 2.23607
+    display<sqrt<number<6>>>(); // 2.44949
+    printf("\n");
+}
+
 #endif
