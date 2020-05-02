@@ -359,8 +359,11 @@ void display(std::ostream &os = std::cout) {
 
 //////////////////////////////////////////////
 
-template <typename seq>
-struct length : public if_else<is_null<seq>, number<0>, add<number<1>, length<cdr<seq>>>> {};
+template <typename items>
+struct length : public if_else<is_null<items>, number<0>, add<number<1>, length<cdr<items>>>> {};
+
+template <typename items, typename n>
+struct list_ref : public if_else<is_equal<n, number<0>>, car<items>, list_ref<cdr<items>, sub<n, number<1>>>> {};
 
 template <template <typename> typename op, typename seq>
 struct map : public if_else<is_null<seq>, null, cons<op<car<seq>>, map<op, cdr<seq>>>> {};
