@@ -66,8 +66,6 @@ struct queen {
 
 static inline void test_queen() {
     printf("queen: \n");
-    using answer = queen<number<5>>;
-
     /*
         ((4 2 5 3 1)
         (3 5 2 4 1)

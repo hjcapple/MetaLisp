@@ -2,7 +2,13 @@
 
 使用 C++ 模板元编程来模拟 Scheme 的 car、cdr、cons、lisp  等语法。需要 C++ 17 支持。
 
+我是在 Mac 系统，使用 clang 编译器测试。它默认的模板嵌套是 1024 层。也可以用编译选项
 
+```
+-ftemplate-depth=N
+```
+
+修改嵌套层数。
 
 ### 模拟 Scheme 函数
 
